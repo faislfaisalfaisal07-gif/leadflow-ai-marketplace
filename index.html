@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LeadFlow is a lightweight lead management and follow-up workspace for small businesses." />
+  <title>LeadFlow — Sales workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="LeadFlow home"><span class="brand-mark">L</span><span>leadflow<span class="brand-dot">.</span></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">▦</span> Overview</button>
+        <button class="nav-item" data-view="leads"><span class="nav-icon">♙</span> Leads <span class="nav-count" id="navLeadCount">0</span></button>
+        <button class="nav-item" data-view="followups"><span class="nav-icon">◷</span> Follow-ups <span class="nav-count alert-count" id="navFollowCount">0</span></button>
+        <button class="nav-item" data-view="templates"><span class="nav-icon">▤</span> Message templates</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card"><div class="help-icon">✦</div><strong>Keep every lead moving</strong><p>Small, consistent follow-ups build stronger customer relationships.</p></div>
+        <button class="nav-item" id="exportBtn"><span class="nav-icon">⇩</span> Export data</button>
+        <div class="profile"><div class="avatar">A</div><div><strong>Workspace owner</strong><small>Free workspace</small></div><span class="profile-menu">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumbCurrent">Overview</strong></div>
+        <div class="top-actions"><span class="today-label" id="todayLabel"></span><button class="icon-button" id="themeToggle" aria-label="Toggle theme">◐</button><button class="secondary-btn" id="accountBtn">Sign in</button><button class="primary-btn" id="topAddBtn">＋ Add lead</button></div>
+      </header>
+
+      <section class="view active-view" id="overviewView">
+        <div class="page-heading"><div><div class="eyebrow">YOUR SALES AT A GLANCE</div><h1>Good to see you<span class="heading-period">.</span></h1><p>Here’s what’s happening with your leads today.</p></div><button class="secondary-btn" id="overviewExport">↗ Export report</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total leads</span><span class="stat-icon purple">♙</span></div><div class="stat-value" id="statTotal">0</div><div class="stat-foot"><span class="muted">All contacts in your workspace</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>New this month</span><span class="stat-icon blue">✧</span></div><div class="stat-value" id="statNew">0</div><div class="stat-foot"><span class="muted">Added during this month</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>In progress</span><span class="stat-icon amber">◷</span></div><div class="stat-value" id="statProgress">0</div><div class="stat-foot"><span class="muted">Leads being worked on</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Won deals</span><span class="stat-icon green">✓</span></div><div class="stat-value" id="statWon">0</div><div class="stat-foot"><span class="muted">Successfully converted</span></div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel pipeline-panel"><div class="panel-heading"><div><h2>Sales pipeline</h2><p>Lead distribution by status</p></div><button class="text-btn" data-go="leads">View leads →</button></div><div id="pipelineBars" class="pipeline-bars"></div></article>
+          <article class="panel tasks-panel"><div class="panel-heading"><div><h2>Follow-up queue</h2><p>People to get back to</p></div><button class="text-btn" data-go="followups">View all →</button></div><div id="overviewFollowups" class="mini-list"></div></article>
+        </div>
+        <article class="panel recent-panel"><div class="panel-heading"><div><h2>Recently added leads</h2><p>Your latest contacts</p></div><button class="text-btn" data-go="leads">All leads →</button></div><div class="table-wrap"><table><thead><tr><th>CONTACT</th><th>COMPANY</th><th>STATUS</th><th>ADDED</th><th></th></tr></thead><tbody id="recentTable"></tbody></table></div></article>
+      </section>
+
+      <section class="view" id="leadsView">
+        <div class="page-heading"><div><div class="eyebrow">RELATIONSHIPS START HERE</div><h1>All leads<span class="heading-period">.</span></h1><p>Organize your prospects and keep every opportunity moving.</p></div><button class="primary-btn" id="leadsAddBtn">＋ Add lead</button></div>
+        <div class="panel leads-panel"><div class="toolbar"><div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search name, company or email..." /></div><select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option>New</option><option>Contacted</option><option>Qualified</option><option>Proposal</option><option>Won</option><option>Lost</option></select><select id="sourceFilter" aria-label="Filter by source"><option value="all">All sources</option><option>Website</option><option>Referral</option><option>Social media</option><option>WhatsApp</option><option>Other</option></select></div><div class="table-wrap"><table><thead><tr><th>CONTACT</th><th>COMPANY</th><th>SOURCE</th><th>STATUS</th><th>FOLLOW-UP</th><th></th></tr></thead><tbody id="leadsTable"></tbody></table><div class="empty-state hidden" id="leadsEmpty"><div class="empty-symbol">♙</div><h3>No leads found</h3><p>Add a lead or adjust your search filters.</p><button class="primary-btn" id="emptyAddBtn">＋ Add your first lead</button></div></div><div class="table-footer" id="tableFooter"></div></div>
+      </section>
+
+      
+<section class="view" id="followupsView">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">DON’T LET OPPORTUNITIES GO COLD</div>
+      <h1>Follow-ups<span class="heading-period">.</span></h1>
+      <p>Stay on top of the next conversation.</p>
+    </div>
+    <button class="primary-btn" id="followAddBtn">＋ Add lead</button>
+  </div>
+
+  <div class="followup-columns">
+    <article class="panel">
+      <div class="panel-heading">
+        <div><h2>Due and overdue</h2><p>Follow-ups that need attention</p></div>
+        <span class="count-pill" id="dueCount">0</span>
+      </div>
+      <div class="followup-list" id="dueList"></div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading">
+        <div><h2>Coming up</h2><p>Scheduled for a future date</p></div>
+      </div>
+      <div class="followup-list" id="upcomingList"></div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading">
+        <div><h2>Completed</h2><p>Follow-ups you have finished</p></div>
+        <span class="count-pill" id="completedCount">0</span>
+      </div>
+      <div class="followup-list" id="completedList"></div>
+    </article>
+  </div>
+</section>
+
+
+      <section class="view" id="templatesView">
+        <div class="page-heading"><div><div class="eyebrow">MAKE EVERY MESSAGE COUNT</div><h1>Message templates<span class="heading-period">.</span></h1><p>Ready-to-personalize messages for common sales moments.</p></div></div>
+        <div class="template-grid" id="templateGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><div class="modal-heading"><div><div class="eyebrow">CONTACT DETAILS</div><h2 id="modalTitle">Add a new lead</h2></div><button class="close-btn" id="closeModal" aria-label="Close">×</button></div><form id="leadForm"><input type="hidden" id="leadId"><div class="form-grid"><label>Full name <span>*</span><input id="leadName" required maxlength="80" placeholder="e.g. Jordan Lee"></label><label>Company<input id="leadCompany" maxlength="100" placeholder="Company name"></label><label>Email<input id="leadEmail" type="email" maxlength="120" placeholder="jordan@company.com"></label><label>Phone / WhatsApp<input id="leadPhone" maxlength="40" placeholder="+1 555 000 0000"></label><label>Status<select id="leadStatus"><option>New</option><option>Contacted</option><option>Qualified</option><option>Proposal</option><option>Won</option><option>Lost</option></select></label><label>Lead source<select id="leadSource"><option>Website</option><option>Referral</option><option>Social media</option><option>WhatsApp</option><option>Other</option></select></label><label>Potential value (USD)<input id="leadValue" type="number" min="0" step="0.01" placeholder="0.00"></label><label>Next follow-up<input id="leadFollowup" type="date"></label><label class="full-width">Notes<textarea id="leadNotes" rows="3" maxlength="1000" placeholder="Context, needs, last conversation..."></textarea></label></div><div class="form-error" id="formError"></div><div class="modal-actions"><button type="button" class="secondary-btn" id="cancelModal">Cancel</button><button type="submit" class="primary-btn">Save lead</button></div></form></div></div>
+  <div class="auth-backdrop hidden" id="authGate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <div class="brand auth-brand"><span class="brand-mark">L</span><span>leadflow<span class="brand-dot">.</span></span></div>
+      <div class="eyebrow">YOUR PRIVATE WORKSPACE</div>
+      <h2 id="authTitle">Welcome back.</h2>
+      <p id="authDescription">Sign in to securely access your leads from any device.</p>
+      <form id="authForm">
+        <label>Email address<input id="authEmail" type="email" autocomplete="email" required placeholder="you@company.com"></label>
+        <label>Password<input id="authPassword" type="password" minlength="8" autocomplete="current-password" required placeholder="At least 8 characters"></label>
+        <div class="form-error" id="authError" role="alert"></div>
+        <button class="primary-btn auth-submit" id="authSubmit" type="submit">Sign in</button>
+      </form>
+      <button class="text-btn auth-switch" id="authSwitch" type="button">New here? Create an account</button>
+      <small class="auth-note">Your data is private to your account. Use an email you can verify.</small>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
